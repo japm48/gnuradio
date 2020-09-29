@@ -40,6 +40,10 @@ int pagesize()
             GR_LOG_ERROR(logger, boost::format("_SC_PAGESIZE: %s") strerror(errno));
             s_pagesize = 4096;
         }
+#elif defined(_WIN32)
+        SYSTEM_INFO system_info;
+        GetSystemInfo(&system_info);
+        return system_info.dwPageSize;
 #else
         GR_LOG_ERROR(logger, "no info; setting pagesize = 4096");
         s_pagesize = 4096;
